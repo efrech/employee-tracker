@@ -5,7 +5,8 @@ Command-line content management systems (CMS) that manages a company's employee 
 ## Functionality 
 
 ```md
-GIVEN a command-line application that accepts user input, when the application starts
+GIVEN a command-line application that accepts user input, 
+When the application starts
 It presents the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, update an employee role and view budget by department
 When selecting view all departments
 It presents a formatted table that shows department names and department ids
