@@ -20,7 +20,7 @@ afterConnection = () => {
   promptUser();
 };
 
-// inquirer prompt for first action
+// inquirer prompt for first questions
 const promptUser = () => {
   inquirer.prompt([
     {
@@ -34,6 +34,7 @@ const promptUser = () => {
         'Add a role',
         'Add an employee',
         'Update an employee role',
+        'View utilized budget by department',
         'Exit'
       ]
     }
@@ -61,6 +62,9 @@ const promptUser = () => {
       if (choices === "Update an employee role") {
         updateEmployeePrompt();
       }
+      if (choices === "View utilized budget by department") {
+        viewBudget();
+      }
       if (choices === "Exit") {
         process.exit();
       }
@@ -68,7 +72,7 @@ const promptUser = () => {
 }
 
 
-//Function to view all departments
+//Function to view all departments by Class
 getAll = (klassParam) => {
   let klass = new klassParam;
   klass.getAll(function (err, data) {
@@ -86,7 +90,7 @@ getAll = (klassParam) => {
   );
 }
 
-//Function to ask questions to add a department
+//Function inquirer to add a new department
 addDepartmentPrompt = () => {
   inquirer.prompt([
     {
@@ -147,6 +151,7 @@ addRolePrompt = () => {
   })
 }
 
+//Function inquirer to add a new employee
 addEmployeePrompt = () => {
   var allRoles = [];
   let role = new Role;
@@ -158,7 +163,6 @@ addEmployeePrompt = () => {
     } else {
       // handle data
       data.forEach(row => allRoles.push({ name: row.title, value: row.id }));
-      // first_name, last_name, role_id, manager_id
       inquirer.prompt([
         {
           type: 'input',
@@ -187,7 +191,7 @@ addEmployeePrompt = () => {
             } else {
               // handle data
               // first_name, last_name, role_id, manager_id
-              data.unshift({value: 0, name: "None"});
+              data.unshift({ value: 0, name: "None" });
               inquirer.prompt([
                 {
                   type: 'list',
@@ -207,9 +211,11 @@ addEmployeePrompt = () => {
             }
           })
         })
-   }})
+    }
+  })
 }
 
+//Function inquirer to update employee
 updateEmployeePrompt = () => {
   var allEmployees = [];
   var allRoles = [];
@@ -252,43 +258,33 @@ updateEmployeePrompt = () => {
               ])
                 .then(answer => {
                   employee.updateEmployeeRole(employeeId, answer.newRoleId);
+                  console.log(`\n`);
+                  console.log(chalk.bgGray(`\nemployee's role updated`));
+                  console.log(`\n`);
                   promptUser();
                 })
             }
           })
         })
-   }})
+    }
+  })
 }
 
-//
-
-//Classes
-// let employee = new Employee;
-// console.table(employee.getAll());
-// console.table(employee.addEmployee("Sandy", "Tavero", 11, 1));
-// console.table(employee.updateEmployeeRole(13, 4));
-// console.table(employee.getAll());
-
-
-// let role = new Role;
-// console.table(role.getAll());
-// console.table(role.addRole("Customer Service Rep.", 42000.00, 5));
-// console.table(role.getAll());
-
-// let department = new Department;
-// console.table(department.getAll());
-// console.table(department.addDepartment("Customer service"));
-
-
-//TODO: create class per table
-//the class should have functions for queries: update an employee role
-//- create index.js and innit() in server.js
-//https://stackoverflow.com/questions/46210279/pass-objects-in-array-into-inquirer-list-choices - inquirer list name value pair
-
-// var departments = [];
-// for loop departments
-// var d = { name: departnemt.name, value: department.id }
-// departments.push(d)
-// list: departments
+//Bonus - View the total combined salaries of all employees by department.
+viewBudget = () => {
+  let role = new Role;
+  role.viewDepartmentBudget(function(err, data) {
+    if (err) {
+      // handle the error
+      console.log(err)
+    } else {
+      // handle data
+      console.log(`\n`);
+      console.table(data)
+      console.log(`\n`);
+      promptUser();
+    }
+  })
+}
 
 afterConnection();
