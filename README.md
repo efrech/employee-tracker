@@ -28,6 +28,8 @@ It presents a formatted table that combines salaries of all employees by departm
 
 ## Mock-Up
 
+Click image to view video with a walk-through the app functionality.
+
 [![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./assets/images/employee-tracker%20video%20thumbnail.png)](https://drive.google.com/file/d/1A7LRXAzPEP8bLK2ULW0DOxoHc8GO5y-v/view)
 
 
